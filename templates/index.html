@@ -1,76 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <title>일기 작성</title>
-    </head>
-    <body>
-        <style>
-            @font-face {
-                font-family: 'BookkMyungjo-Bd';
-                src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2')
-                    format('woff2');
-                font-weight: 700;
-                font-style: normal;
-            }
-            body {
-                font-family: 'BookkMyungjo-Bd', sans-serif;
-            }
-        </style>
-        <div class="flex flex-col h-screen">
-            <header class="bg-[#f5f5f5] text-[#333] py-4 px-6 shadow-md">
-                <h1 class="text-2xl font-bold">일기 작성</h1>
-            </header>
-            <main class="flex-1 grid grid-cols-1 md:grid-cols-1 gap-8 p-8">
-                <div class="bg-[#fff] rounded-lg shadow-md p-6 space-y-4">
-                    <h2 class="text-xl font-bold">나만의 일기를 작성해보세요</h2>
-                    <form action="{{ url_for('submit') }}" method="POST" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {% for i, question in enumerate(fixed_questions) %}
-                            <div>
-                                <label
-                                    class="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >{{ question }}</label
-                                >
-                                <input
-                                    type="text"
-                                    name="answer{{ i }}"
-                                    required
-                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                />
-                            </div>
-                            {% endfor %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>일기 작성</title>
+</head>
+<body>
+    <style>
+        @font-face {
+            font-family: 'BookkMyungjo-Bd';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+        body {
+            font-family: 'BookkMyungjo-Bd', sans-serif;
+        }
+    </style>
+    <div class="flex flex-col h-screen">
+        <header class="bg-[#f5f5f5] text-[#333] py-4 px-6 shadow-md">
+            <h1 class="text-2xl font-bold">일기 작성</h1>
+        </header>
+        <main class="flex-1 p-8">
+            <div class="bg-[#fff] rounded-lg shadow-md p-6 space-y-4">
+                <h2 class="text-xl font-bold">나만의 일기를 작성해보세요</h2>
+                <form action="{{ url_for('submit') }}" method="POST" class="space-y-4">
+                    <div class="flex flex-wrap -mx-4">
+                        {% for i, question in enumerate(fixed_questions) %}
+                        <div class="w-full md:w-1/2 px-4 mb-4">
+                            <label class="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{{ question }}</label>
+                            <input type="text" name="answer{{ i }}" required class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                         </div>
-                        <div class="space-y-4">
-                            {% for i, question in enumerate(random_questions) %}
-                            <div>
-                                <label
-                                    class="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >{{ question }}</label
-                                >
-                                <input type="hidden" name="random_question{{ i }}" value="{{ question }}" />
-                                <input
-                                    type="text"
-                                    name="random_answer{{ i }}"
-                                    required
-                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                />
-                            </div>
-                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <div class="flex flex-wrap -mx-4">
+                        {% for i, question in enumerate(random_questions) %}
+                        <div class="w-full md:w-1/2 px-4 mb-4">
+                            <label class="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{{ question }}</label>
+                            <input type="hidden" name="random_question{{ i }}" value="{{ question }}" />
+                            <input type="text" name="random_answer{{ i }}" required class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                         </div>
-                        <div class="flex items-center justify-center py-4">
-                            <button
-                                type="submit"
-                                class="inline-flex items-center justify-center whitespace-nowrap text-xl font-bold ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 bg-[#4CAF50] text-white hover:bg-[#45a049] transition-colors px-6 py-2 rounded-md w-[90vw]"
-                            >
-                                제출
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-        </div>
-    </body>
+                        {% endfor %}
+                    </div>
+                    <div class="flex items-center justify-center py-4">
+                        <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-xl font-bold ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 bg-[#4CAF50] text-white hover:bg-[#45a049] transition-colors px-6 py-2 rounded-md w-[90vw]">제출</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
 </html>
