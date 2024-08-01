@@ -207,9 +207,10 @@ def utility_processor():
 
 @app.route('/')
 def index():
-    random_questions_group = random.choice([random_questions, random_questions2, random_questions3, random_questions4])
-    selected_random_questions = random.sample(random_questions_group, 2)  # 랜덤 질문 2개 선택
+    selected_random_questions = random.sample(random_questions, 2) + random.sample(random_questions2, 2) + random.sample(random_questions3, 2) + random.sample(random_questions4, 2)
+    random.shuffle(selected_random_questions)
     return render_template('index.html', fixed_questions=fixed_questions, random_questions=selected_random_questions)
+
 
 
 @app.route('/submit', methods=['POST'])
@@ -240,20 +241,21 @@ def submit():
 def diary():
     return render_template('diary.html', responses=responses)
 
+import requests
+...
 def generate_diary(answers):
     prompt = "사용자의 대답을 바탕으로 일기를 작성해 주세요:\n"
     for question, answer in answers:
         prompt += f"Q: {question}\nA: {answer}\n"
     
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant that writes diary entries based on user's answers."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=200
+    response = requests.post(
+        "https://api.tion.kro.kr/ai/chat/DiaryTh28pD4c13Th",
+        json={"text": prompt}
     )
     
-    diary_content = response['choices'][0]['message']['content'].strip()
+    diary_content = response.json().get('text', '').strip()
     return diary_content
 
+
+if __name__ == '__main__':
+    app.run(debug=True)
