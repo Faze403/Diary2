@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>일기</title>
-</head>
-<body>
-    <h1>일기</h1>
-    {% for response in responses %}
-        <div class="entry">
-            {% for question, answer in response.answers %}
-                <p><strong>{{ question }}</strong><br>{{ answer }}</p>
-            {% endfor %}
-            <hr>
-            <h3>생성된 일기</h3>
-            <p>{{ response.diary }}</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>일기</title>
+        <style>
+            @font-face {
+                font-family: 'BookkMyungjo-Bd';
+                src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2')
+                    format('woff2');
+                font-weight: 700;
+                font-style: normal;
+            }
+            body {
+                font-family: 'BookkMyungjo-Bd', sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="flex flex-col h-screen">
+            <header class="bg-[#f5f5f5] text-[#333] py-4 px-6 shadow-md">
+                <h1 class="text-2xl font-bold">일기</h1>
+            </header>
+            <div class="container mx-auto p-6">
+                {% for response in responses %}
+                <div class="entry mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        {% for question, answer in response.answers %}
+                        <div>
+                            <p><strong class="text-lg">{{ question }}</strong><br />{{ answer }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr class="mb-4" />
+                    <h3 class="text-2xl font-semibold mb-2">생성된 일기</h3>
+                    <div class="prose max-w-none">{{ response.diary }}</div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    {% endfor %}
-</body>
+    </body>
 </html>
