@@ -13,6 +13,8 @@ DIARY_FOLDER = 'diaries'
 if not os.path.exists(DIARY_FOLDER):
     os.makedirs(DIARY_FOLDER)
 
+responses = ""
+
 fixed_questions = [
     "나이가 어떻게 되나요?",
     "성별이 어뗳게 되나요?",
