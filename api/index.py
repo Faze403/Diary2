@@ -13,8 +13,6 @@ DIARY_FOLDER = 'diaries'
 if not os.path.exists(DIARY_FOLDER):
     os.makedirs(DIARY_FOLDER)
 
-responses = ""
-
 fixed_questions = [
     "나이가 어떻게 되나요?",
     "성별이 어뗳게 되나요?",
@@ -218,6 +216,7 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     global responses
+    responses = []
     answers = []
     for i, question in enumerate(fixed_questions):
         answer = request.form.get(f'answer{i}')
