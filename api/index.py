@@ -207,8 +207,8 @@ def utility_processor():
 
 @app.route('/')
 def index():
-    selected_random_questions = random.sample(random_questions, 2) + random.sample(random_questions2, 2) + random.sample(random_questions3, 2) + random.sample(random_questions4, 2)
-    random.shuffle(selected_random_questions)
+    combined_random_questions = random_questions + random_questions2 + random_questions3 + random_questions4
+    selected_random_questions = random.sample(combined_random_questions, 5)
     return render_template('index.html', fixed_questions=fixed_questions, random_questions=selected_random_questions)
 
 
@@ -255,4 +255,5 @@ def generate_diary(answers):
     
     diary_content = response.json().get('text', '').strip()
     return diary_content
+
 
